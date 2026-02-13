@@ -4,13 +4,17 @@
 # как first_name, last_name, age и city. Выведите каждый фрагмент информации,
 # хранящийся в словаре.
 
-human = {}
-human['first_name'] = 'John'
-human['last_name'] = 'Wick'
-human['age'] = 35
-human['city'] = 'New York'
+human = {
+    'first_name': 'John',
+    'last_name': 'Wick',
+    'age': 52,
+    'city': 'New York'
+}
 
 for i in human:
     print(f'{i}: {human[i]}')
 
 print(human)
+
+for k, v in human.items():
+    print(f'{k}: {v}')
