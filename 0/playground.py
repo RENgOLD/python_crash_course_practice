@@ -1,3 +1,5 @@
-message = input('User input:')
-int_message = str(message)
-print(int_message)
+def greet_user():
+    """Выводит простое приветствие."""
+    print("Hello!")
+
+greet_user()
