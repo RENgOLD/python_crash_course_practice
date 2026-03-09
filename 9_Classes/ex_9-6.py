@@ -22,7 +22,7 @@ class Restaurant:
         print('Ресторан открыт.')
 
     def set_number_served(self,number):
-        """Установка количества обсуженных посетителей"""
+        """Установка количества обслуженных посетителей"""
         self.number_served = number
 
     def increment_number_served(self,number):
