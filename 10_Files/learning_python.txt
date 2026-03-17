@@ -1,0 +1,5 @@
+In Python, you can create universal applications.
+In Python, you can do web development.
+In Python, you can perform data analysis and AI.
+In Python, you can write code for automated tests.
+In Python, you can write simple code.
