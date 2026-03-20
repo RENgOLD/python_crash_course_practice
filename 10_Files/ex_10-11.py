@@ -1,0 +1,17 @@
+# 10.11. Любимое число. Напишите программу, которая запрашивает у
+# пользователя его любимое число. Воспользуйтесь функцией json.dumps() для
+# сохранения этого числа в файле. Напишите другую программу, которая читает
+# это значение и выводит сообщение: «Я знаю ваше любимое число! Это _____».
+
+from pathlib import Path
+import json
+
+path = Path('fav_number.txt')
+fav_number = ''
+
+if path.exists():
+    fav_number = json.loads(path.read_text())
+    print(f'Любимое число загружено: {fav_number}')
+else:
+    fav_number = input('Ваше любимое число: ')
+    path.write_text(json.dumps(fav_number))
