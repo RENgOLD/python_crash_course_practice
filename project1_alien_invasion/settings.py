@@ -13,3 +13,9 @@ class Settings:
         # Настройки корабля
         self.ship_speed = 10
 
+        # Настройки снаряда
+        self.bullet_speed = 2.0
+        self.bullet_width = 3
+        self.bullet_height = 15
+        self.bullet_color = (0,255,255)
+
