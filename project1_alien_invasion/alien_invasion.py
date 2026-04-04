@@ -91,9 +91,18 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+        self._check_bullet_alien_collisions()
+
+
+    def _check_bullet_alien_collisions(self):
+        """Обрабатывает коллизии снарядов с пришельцами."""
+        # Удаление снарядов и пришельцев, участвующих в коллизиях
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens,
                                                 True, True)
-
+        if not self.aliens:
+            # Уничтожение существующих снарядов и создание нового флота.
+            self.bullets.empty()
+            self._create_fleet()
 
     def _create_fleet(self):
         """Создаёт флот пришельцев"""
@@ -140,6 +149,10 @@ class AlienInvasion:
         """Обновляет позиции всех пришельцев во флоте"""
         self._check_fleet_edges()
         self.aliens.update()
+
+        # Проверка коллизий "пришелец - корабль"
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("Ship hit!!!")
 
 
     def _update_screen(self):
