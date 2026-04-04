@@ -11,7 +11,7 @@ from alien import Alien
 class AlienInvasion:
     """Класс для управления ресурсами и поведением игры."""
 
-    def __init__(self):
+    def __init__(self, ai_game):
         """Инициализирует игру и создает игровые ресурсы."""
         pygame.init()
         self.clock = pygame.time.Clock()
@@ -35,6 +35,9 @@ class AlienInvasion:
         self.aliens = pygame.sprite.Group()
 
         self._create_fleet()
+
+        # Игра запускается в активном состоянии
+        self.game_active = True
 
 
     def run_game(self):
@@ -113,19 +116,31 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """Обрабатывает столкновение корабля с пришельцем"""
-        # Уменьшение ships_left
-        self.stats.ships_left -= 1
+        if self.stats.ships_left > 0:
+            # Уменьшение ships_left
+            self.stats.ships_left -= 1
 
-        # Очистка групп aliens и bullets.
-        self.aliens.empty()
-        self.bullets.empty()
+            # Очистка групп aliens и bullets.
+            self.aliens.empty()
+            self.bullets.empty()
 
-        # Создание нового флота и размещение корабля в центре.
-        self._create_fleet()
-        self.ship.center_ship()
+            # Создание нового флота и размещение корабля в центре.
+            self._create_fleet()
+            self.ship.center_ship()
 
-        # Пауза
-        sleep(0.5)
+            # Пауза
+            sleep(0.5)
+        else:
+            self.game_active = False
+
+
+    def _check_aliens_bottom(self):
+        """Проверяет, добрались ли пришельцы до нижнего края экрана"""
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= self.settings.screen_height:
+                # Происходит то же, что при столкновении с кораблём
+                self._ship_hit()
+                break
 
 
     def _create_fleet(self):
@@ -177,6 +192,9 @@ class AlienInvasion:
         # Проверка коллизий "пришелец - корабль"
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
+
+        # Проверка коллизий "пришелец - край экрана"
+        self._check_aliens_bottom()
 
 
     def _update_screen(self):
