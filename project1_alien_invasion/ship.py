@@ -32,10 +32,13 @@ class Ship:
         if self.moving_left and self.rect.left > 0:
             self.x -= self.settings.ship_speed
 
-
-
         # Обновление атрибута rect на основании self.x
         self.rect.x = self.x
+
+    def center_ship(self):
+        """Размещает корабль в центре нижней части экрана"""
+        self.rect.midbottom = self.screen_rect.midbottom
+        self.x = float(self.rect.x)
 
 
     def blitme(self):
