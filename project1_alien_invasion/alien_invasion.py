@@ -3,6 +3,7 @@ import pygame
 from time import sleep
 
 from game_stats import GameStats
+from button import Button
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
@@ -37,7 +38,10 @@ class AlienInvasion:
         self._create_fleet()
 
         # Игра запускается в активном состоянии
-        self.game_active = True
+        self.game_active = False
+
+        # Создание кнопки Play.
+        self.play_button = Button(self, "Play")
 
 
     def run_game(self):
@@ -61,6 +65,15 @@ class AlienInvasion:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
+
+
+    def _check_play_button(self, mouse_pos):
+        """Запускает новую игру при нажатии кнопки Play"""
+        if self.play_button.rect.collidepoint(mouse_pos):
+            self.game_active = True
 
 
     def _check_keydown_events(self, event):
@@ -205,10 +218,14 @@ class AlienInvasion:
 
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+
+        if not self.game_active:
+            self.play_button.draw_button()
+
         pygame.display.flip()
 
 
 if __name__ == '__main__':
     # Создание экземпляра и запуск игры.
-    ai = AlienInvasion()
+    ai = AlienInvasion("ai_game")
     ai.run_game()
