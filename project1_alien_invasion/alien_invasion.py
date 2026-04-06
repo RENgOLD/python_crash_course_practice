@@ -72,8 +72,19 @@ class AlienInvasion:
 
     def _check_play_button(self, mouse_pos):
         """Запускает новую игру при нажатии кнопки Play"""
-        if self.play_button.rect.collidepoint(mouse_pos):
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.game_active:
+            # Сброс игровой статистики
+            self.stats.reset_stats()
             self.game_active = True
+
+        # Очистка групп aliens и bullets
+        self.bullets.empty()
+        self.aliens.empty()
+
+        # Создание нового флота и размещение корабля в центре
+        self._create_fleet()
+        self.ship.center_ship()
 
 
     def _check_keydown_events(self, event):
@@ -227,5 +238,5 @@ class AlienInvasion:
 
 if __name__ == '__main__':
     # Создание экземпляра и запуск игры.
-    ai = AlienInvasion("ai_game")
+    ai = AlienInvasion('')
     ai.run_game()
